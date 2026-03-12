@@ -73,70 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
     promoOverlay.addEventListener("click", (e) => { if (e.target === promoOverlay) closePromo(); });
   }
 
-  // BASKET DROP + FALLING GUMMIES
-  const basketWrap = document.getElementById("basketWrap");
-  if (basketWrap) {
-    function bearSVG(col) {
-      return "data:image/svg+xml,"
-        + "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 64'>"
-        // ears
-        + "<circle cx='14' cy='11' r='7.5' fill='" + col + "'/>"
-        + "<circle cx='36' cy='11' r='7.5' fill='" + col + "'/>"
-        // head
-        + "<ellipse cx='25' cy='22' rx='16.5' ry='14' fill='" + col + "'/>"
-        // body
-        + "<ellipse cx='25' cy='42' rx='16' ry='17' fill='" + col + "'/>"
-        // arms
-        + "<ellipse cx='6.5' cy='38' rx='7' ry='4' fill='" + col + "' transform='rotate(-22 6.5 38)'/>"
-        + "<ellipse cx='43.5' cy='38' rx='7' ry='4' fill='" + col + "' transform='rotate(22 43.5 38)'/>"
-        // legs
-        + "<ellipse cx='17' cy='58' rx='7.5' ry='4.5' fill='" + col + "'/>"
-        + "<ellipse cx='33' cy='58' rx='7.5' ry='4.5' fill='" + col + "'/>"
-        // specular shine — simulates light through candy
-        + "<ellipse cx='19' cy='15' rx='10' ry='6' fill='white' opacity='0.52'/>"
-        + "<ellipse cx='11' cy='9' rx='4' ry='2.5' fill='white' opacity='0.45'/>"
-        + "<ellipse cx='36' cy='9' rx='4' ry='2.5' fill='white' opacity='0.45'/>"
-        + "<ellipse cx='17' cy='34' rx='8' ry='5' fill='white' opacity='0.28'/>"
-        + "<ellipse cx='9' cy='36' rx='2.5' ry='1.8' fill='white' opacity='0.35' transform='rotate(-22 9 36)'/>"
-        + "<ellipse cx='41' cy='36' rx='2.5' ry='1.8' fill='white' opacity='0.35' transform='rotate(22 41 36)'/>"
-        // eyes
-        + "<circle cx='20' cy='22' r='1.9' fill='%23111'/>"
-        + "<circle cx='30' cy='22' r='1.9' fill='%23111'/>"
-        + "<circle cx='20.7' cy='21.3' r='0.7' fill='white'/>"
-        + "<circle cx='30.7' cy='21.3' r='0.7' fill='white'/>"
-        // nose
-        + "<circle cx='25' cy='26' r='1.1' fill='%23222' opacity='0.6'/>"
-        + "</svg>";
-    }
-    const bearTypes = [
-      bearSVG('%23e82020'),
-      bearSVG('%231a9a35'),
-      bearSVG('%23e07818'),
-      bearSVG('%23c8b010'),
-      bearSVG('%237ac428'),
-    ];
-    setTimeout(() => {
-      for (let i = 0; i < 200; i++) {
-        const g = document.createElement("span");
-        g.className = "gummy-piece";
-        g.style.backgroundImage = `url("${bearTypes[Math.floor(Math.random() * bearTypes.length)]}")` ;
-        const angle = (Math.random() * 280) - 140;
-        const dist = 60 + Math.random() * 220;
-        const rad = (angle * Math.PI) / 180;
-        const gx = Math.round(Math.sin(rad) * dist);
-        const gy = Math.round(Math.abs(Math.cos(rad)) * dist + 60 + Math.random() * 150);
-        g.style.setProperty("--gx", gx + "px");
-        g.style.setProperty("--gy", gy + "px");
-        g.style.setProperty("--gr", (Math.random() * 720 - 360) + "deg");
-        g.style.setProperty("--gd", (0.5 + Math.random() * 0.9) + "s");
-        g.style.setProperty("--gdelay", (Math.random() * 0.45) + "s");
-        g.style.left = (34 + Math.random() * 32) + "%";
-        basketWrap.appendChild(g);
-        setTimeout(() => g.remove(), 2400);
-      }
-    }, 1100);
-  }
-
   // LIGHTBOX
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg");
@@ -220,8 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       airaBubble.classList.add("hidden");
     });
-    // auto-hide bubble after 6 seconds
-    setTimeout(() => airaBubble.classList.add("hidden"), 6000);
+    // show bubble after 2s, then auto-hide after 6s
+    setTimeout(() => {
+      airaBubble.classList.remove("hidden");
+      setTimeout(() => airaBubble.classList.add("hidden"), 6000);
+    }, 2000);
   }
 
   // PAUSE CAROUSEL ON HOVER
